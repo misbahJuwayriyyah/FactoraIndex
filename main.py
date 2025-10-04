@@ -6,7 +6,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import OpenAI,OpenAIEmbeddings
+from langchain_groq import ChatGroq
+from langchain_huggingface import HuggingFaceEmbeddings
 # from langchain_ollama import OllamaLLM
 # from langchain_ollama import OllamaEmbeddings
 
@@ -28,19 +29,8 @@ main_placeholder = st.empty()
 
 # llm = OllamaLLM(model="gemma:2b", temperature=0.7)
 # embeddings = OllamaEmbeddings(model="nomic-embed-text")
-try:
-    llm = OpenAI(
-        model="gpt-3.5-turbo",  
-        temperature=0.7
-    )
-    embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-small"  
-    )
-    st.sidebar.success("OpenAI API Connected")
-except Exception as e:
-    st.sidebar.error(f"OpenAI API Error: {str(e)}")
-    st.stop()
-
+llm = ChatGroq(model="llama-3.1-70b-versatile", temperature=0.7)
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 def load_urls(urls):
     """Load documents from URLs with error handling"""
