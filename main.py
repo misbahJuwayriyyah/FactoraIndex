@@ -6,7 +6,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_openai import OpenAI,OpenAIEmbeddings
 # from langchain_ollama import OllamaLLM
 # from langchain_ollama import OllamaEmbeddings
 
@@ -29,7 +29,7 @@ main_placeholder = st.empty()
 # llm = OllamaLLM(model="gemma:2b", temperature=0.7)
 # embeddings = OllamaEmbeddings(model="nomic-embed-text")
 try:
-    llm = ChatOpenAI(
+    llm = OpenAI(
         model="gpt-3.5-turbo",  
         temperature=0.7
     )
