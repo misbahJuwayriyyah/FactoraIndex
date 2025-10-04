@@ -1,15 +1,14 @@
 import os
 import streamlit as st
+from langchain_ollama import OllamaLLM
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import WebBaseLoader
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
-from dotenv import load_dotenv
 
-load_dotenv()
 
 st.title("FactoraIndex: Financial Research")
 st.sidebar.title("News Article URLs")
@@ -25,21 +24,8 @@ index_dir = "faiss_index"
 
 main_placeholder = st.empty()
 
-# llm = OllamaLLM(model="gemma:2b", temperature=0.7)
-# embeddings = OllamaEmbeddings(model="nomic-embed-text")
-
-try:
-    llm = ChatOpenAI(
-        model="gpt-3.5-turbo",  
-        temperature=0.7
-    )
-    embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-small" 
-    )
-    st.sidebar.success("OpenAI API Connected")
-except Exception as e:
-    st.sidebar.error(f"OpenAI API Error: {str(e)}")
-    st.stop()
+llm = OllamaLLM(model="gemma:2b", temperature=0.7)
+embeddings = OllamaEmbeddings(model="nomic-embed-text")
 
 
 def load_urls(urls):
