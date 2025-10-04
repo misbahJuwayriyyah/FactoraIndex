@@ -29,7 +29,7 @@ main_placeholder = st.empty()
 
 # llm = OllamaLLM(model="gemma:2b", temperature=0.7)
 # embeddings = OllamaEmbeddings(model="nomic-embed-text")
-llm = ChatGroq(model="llama-3.1-70b-versatile", temperature=0.7)
+llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0.7)
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 def load_urls(urls):
