@@ -8,10 +8,13 @@ from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
-from sentence_transformers import SentenceTransformer
+from dotenv import load_dotenv
 # from langchain_ollama import OllamaLLM
 # from langchain_ollama import OllamaEmbeddings
 
+
+env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+load_dotenv(dotenv_path=env_path)
 
 
 st.title("FactoraIndex: Financial Research")
@@ -28,11 +31,15 @@ index_dir = "faiss_index"
 
 main_placeholder = st.empty()
 
+if not os.getenv("GROQ_API_KEY"):
+    raise ValueError("GROQ_API_KEY not found in .env file")
 # llm = OllamaLLM(model="gemma:2b", temperature=0.7)
 # embeddings = OllamaEmbeddings(model="nomic-embed-text")
-llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0.7)
-model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2", device="cpu")
-embeddings = HuggingFaceEmbeddings(model=model)
+llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0.7,api_key=os.getenv("GROQ_API_KEY")) #type:ignore
+
+embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+)
 def load_urls(urls):
     """Load documents from URLs with error handling"""
     docs = []
