@@ -30,7 +30,8 @@ main_placeholder = st.empty()
 # llm = OllamaLLM(model="gemma:2b", temperature=0.7)
 # embeddings = OllamaEmbeddings(model="nomic-embed-text")
 llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0.7)
-embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",
+    model_kwargs={"device": "cpu"}) # Prevent meta device issue)
 
 def load_urls(urls):
     """Load documents from URLs with error handling"""
