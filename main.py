@@ -8,6 +8,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
+from sentence_transformers import SentenceTransformer
 # from langchain_ollama import OllamaLLM
 # from langchain_ollama import OllamaEmbeddings
 
@@ -30,9 +31,8 @@ main_placeholder = st.empty()
 # llm = OllamaLLM(model="gemma:2b", temperature=0.7)
 # embeddings = OllamaEmbeddings(model="nomic-embed-text")
 llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0.7)
-embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",
-    model_kwargs={"device": "cpu"}) # Prevent meta device issue)
-
+model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2", device="cpu")
+embeddings = HuggingFaceEmbeddings(model=model)
 def load_urls(urls):
     """Load documents from URLs with error handling"""
     docs = []
