@@ -1,5 +1,4 @@
 import os
-import torch
 import streamlit as st
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -11,7 +10,7 @@ from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
 # from langchain_ollama import OllamaLLM
 # from langchain_ollama import OllamaEmbeddings
-device = "cuda" if torch.cuda.is_available() else "cpu"
+
 
 
 st.title("FactoraIndex: Financial Research")
@@ -31,11 +30,8 @@ main_placeholder = st.empty()
 # llm = OllamaLLM(model="gemma:2b", temperature=0.7)
 # embeddings = OllamaEmbeddings(model="nomic-embed-text")
 llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0.7)
-
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2",
-    model_kwargs={"device": device}
-)
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",
+    model_kwargs={"device": "cpu"}) # Prevent meta device issue)
 
 def load_urls(urls):
     """Load documents from URLs with error handling"""
